@@ -1,0 +1,43 @@
+{% extends 'personnel/base.html' %}
+
+{% block title %}Departments List{% endblock %}
+
+{% block content %}
+    <!-- 页面标题：显示“Departments” -->
+    <h2 class="mb-4">Departments</h2>
+    <!-- 添加部门按钮：链接到department_create视图（创建新部门） -->
+    <a href="{% url 'department_create' %}" class="btn btn-primary mb-3">Add Department</a>
+    <!-- 部门列表表格：使用Bootstrap的table组件，条纹样式（易读） -->
+    <table class="table table-striped table-hover">
+        <!-- 表头：深色背景，白色文字 -->
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>  <!-- 部门名称 -->
+                <th>Description</th>  <!-- 部门描述 -->
+                <th>Actions</th>  <!-- 操作列（查看、编辑、删除） -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 循环显示所有部门：department是每个部门的实例 -->
+            {% for department in departments %}
+                <tr>
+                    <td>{{ department.name }}</td>  <!-- 显示部门名称 -->
+                    <td>{{ department.description }}</td>  <!-- 显示部门描述 -->
+                    <td>
+                        <!-- 查看按钮：链接到department_detail视图（传递部门ID） -->
+                        <a href="{% url 'department_detail' department.pk %}" class="btn btn-info btn-sm">View</a>
+                        <!-- 编辑按钮：链接到department_update视图（传递部门ID） -->
+                        <a href="{% url 'department_update' department.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                        <!-- 删除按钮：链接到department_delete视图（传递部门ID） -->
+                        <a href="{% url 'department_delete' department.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <!-- 如果没有部门，显示提示信息（避免页面空白） -->
+                <tr>
+                    <td colspan="3" class="text-center">No departments available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'personnel/base.html' %}
+
+{% block title %}
+    <!-- 动态标题：根据是否是编辑现有员工显示不同文本 -->
+    {% if form.instance.pk %}
+        Edit Employee  <!-- 编辑现有员工时显示 -->
+    {% else %}
+        Add Employee   <!-- 创建新员工时显示 -->
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <!-- 动态内容标题：与title块逻辑一致 -->
+    <h2 class="mb-4">
+        {% if form.instance.pk %}
+            Edit Employee
+        {% else %}
+            Add Employee
+        {% endif %}
+    </h2>
+    <!-- 表单开始：method="post"用于提交数据 -->
+    <form method="post">
+        <!-- CSRF保护 -->
+        {% csrf_token %}
+        <!-- 渲染表单字段 -->
+        {{ form.as_p }}
+        <!-- 提交按钮 -->
+        <button type="submit" class="btn btn-primary">Save</button>
+        <!-- 取消按钮：返回员工列表 -->
+        <a href="{% url 'employees_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}

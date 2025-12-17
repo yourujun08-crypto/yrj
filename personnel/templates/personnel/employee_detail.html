@@ -1,0 +1,30 @@
+{% extends 'personnel/base.html' %}
+
+{% block title %}Employee Detail{% endblock %}
+
+{% block content %}
+    <!-- 页面标题：显示员工姓名（动态） -->
+    <h2 class="mb-4">{{ employee.name }}</h2>
+    <!-- 员工详情卡片 -->
+    <div class="card">
+        <div class="card-body">
+            <!-- 显示员工邮箱 -->
+            <p><strong>Email:</strong> {{ employee.email }}</p>
+            <!-- 显示所属部门（通过外键关联） -->
+            <p><strong>Department:</strong> {{ employee.department.name }}</p>
+            <!-- 显示职位 -->
+            <p><strong>Position:</strong> {{ employee.position }}</p>
+            <!-- 显示入职日期 -->
+            <p><strong>Hire Date:</strong> {{ employee.hire_date }}</p>
+        </div>
+    </div>
+    <!-- 操作按钮：编辑、删除、返回列表 -->
+    <div class="mt-3">
+        <!-- 编辑按钮：链接到employee_update视图 -->
+        <a href="{% url 'employee_update' employee.pk %}" class="btn btn-warning">Edit</a>
+        <!-- 删除按钮：链接到employee_delete视图 -->
+        <a href="{% url 'employee_delete' employee.pk %}" class="btn btn-danger">Delete</a>
+        <!-- 返回列表按钮：链接到employees_list视图 -->
+        <a href="{% url 'employees_list' %}" class="btn btn-secondary">Back to List</a>
+    </div>
+{% endblock %}

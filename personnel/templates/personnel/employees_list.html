@@ -1,0 +1,48 @@
+{% extends 'personnel/base.html' %}
+
+{% block title %}Employees List{% endblock %}
+
+{% block content %}
+    <!-- 页面标题：显示“Employees” -->
+    <h2 class="mb-4">Employees</h2>
+    <!-- 添加员工按钮：链接到employee_create视图 -->
+    <a href="{% url 'employee_create' %}" class="btn btn-primary mb-3">Add Employee</a>
+    <!-- 员工列表表格 -->
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>  <!-- 员工姓名 -->
+                <th>Email</th>  <!-- 员工邮箱 -->
+                <th>Department</th>  <!-- 所属部门（显示部门名称，通过外键关联） -->
+                <th>Position</th>  <!-- 职位 -->
+                <th>Hire Date</th>  <!-- 入职日期 -->
+                <th>Actions</th>  <!-- 操作列 -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 循环显示所有员工：employee是每个员工的实例 -->
+            {% for employee in employees %}
+                <tr>
+                    <td>{{ employee.name }}</td>  <!-- 员工姓名 -->
+                    <td>{{ employee.email }}</td>  <!-- 员工邮箱 -->
+                    <td>{{ employee.department.name }}</td>  <!-- 所属部门名称（通过外键关联） -->
+                    <td>{{ employee.position }}</td>  <!-- 职位 -->
+                    <td>{{ employee.hire_date }}</td>  <!-- 入职日期 -->
+                    <td>
+                        <!-- 查看按钮：链接到employee_detail视图 -->
+                        <a href="{% url 'employee_detail' employee.pk %}" class="btn btn-info btn-sm">View</a>
+                        <!-- 编辑按钮：链接到employee_update视图 -->
+                        <a href="{% url 'employee_update' employee.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                        <!-- 删除按钮：链接到employee_delete视图 -->
+                        <a href="{% url 'employee_delete' employee.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <!-- 如果没有员工，显示提示信息 -->
+                <tr>
+                    <td colspan="6" class="text-center">No employees available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

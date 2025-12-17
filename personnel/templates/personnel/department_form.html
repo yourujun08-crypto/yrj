@@ -1,0 +1,32 @@
+{% extends 'personnel/base.html' %}
+
+{% block title %}
+    <!-- 动态标题：根据是否是编辑现有部门显示不同文本 -->
+    {% if form.instance.pk %}
+        Edit Department  <!-- 编辑现有部门时显示 -->
+    {% else %}
+        Add Department   <!-- 创建新部门时显示 -->
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <!-- 动态内容标题：与title块逻辑一致（保持页面一致） -->
+    <h2 class="mb-4">
+        {% if form.instance.pk %}
+            Edit Department
+        {% else %}
+            Add Department
+        {% endif %}
+    </h2>
+    <!-- 表单开始：method="post"表示提交数据的方式（用于创建/更新记录） -->
+    <form method="post">
+        <!-- Django的CSRF保护：防止跨站请求伪造（必须包含！） -->
+        {% csrf_token %}
+        <!-- 渲染表单字段：as_p表示每个字段以“段落+标签+输入框”的形式显示（初学者易读） -->
+        {{ form.as_p }}
+        <!-- 提交按钮：点击后触发表单提交（将数据发送到后端） -->
+        <button type="submit" class="btn btn-primary">Save</button>
+        <!-- 取消按钮：点击后跳转到部门列表页（通过URL反向解析获取路径） -->
+        <a href="{% url 'departments_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}
